@@ -59,6 +59,17 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // A área do motorista não pode ser guardada em cache pelo navegador: sem isso,
+  // voltar pelo histórico depois de sair ainda mostrava a página autenticada
+  // (com os dados da viagem) até o usuário dar F5.
+  // Só mexemos nos headers — os cookies do supabaseResponse ficam intactos.
+  if (request.nextUrl.pathname.startsWith("/protected")) {
+    supabaseResponse.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate",
+    );
+  }
+
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:
