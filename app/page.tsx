@@ -9,10 +9,12 @@ import { Coverage } from "@/components/site/coverage";
 import { Contact } from "@/components/site/contact";
 import { SiteFooter } from "@/components/site/site-footer";
 import { WhatsappFloat } from "@/components/site/whatsapp-float";
+import { StructuredData } from "@/components/site/structured-data";
 
 export default function Home() {
   return (
     <>
+      <StructuredData />
       <SiteHeader />
 
       <main>

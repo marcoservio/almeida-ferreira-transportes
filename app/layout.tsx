@@ -2,37 +2,57 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Barlow_Condensed } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { siteConfig } from "@/lib/site-config";
+import { siteUrl } from "@/lib/seo";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(defaultUrl),
+  metadataBase: new URL(siteUrl),
   title: {
-    default: `${siteConfig.name} — Transporte rodoviário de cargas`,
-    template: `%s | ${siteConfig.shortName}`,
+    default: siteConfig.seo.title,
+    template: `%s | ${siteConfig.shortName} Transportes`,
   },
-  description: siteConfig.description,
-  keywords: [
-    "transportadora",
-    "transporte rodoviário de cargas",
-    "carga refrigerada",
-    "cadeia fria",
-    "carga seca",
-    "frete",
-    "Minas Gerais",
-    siteConfig.shortName,
-  ],
+  description: siteConfig.seo.description,
+  keywords: [...siteConfig.seo.keywords],
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name, url: siteUrl }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: "Transporte rodoviário de cargas",
+  // Evita que o Google transforme telefone/endereço em links automáticos
+  // e quebre o layout no iOS.
+  formatDetection: { telephone: false, address: false, email: false },
+  alternates: {
+    canonical: "/",
+  },
+  // Sem isso o Google costuma exibir só uma miniatura pequena e cortar o texto.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: defaultUrl,
+    url: siteUrl,
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
+    title: siteConfig.seo.title,
+    description: siteConfig.seo.description,
   },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.seo.title,
+    description: siteConfig.seo.description,
+  },
+  // Código do Google Search Console. Deixe a env vazia até ter o código.
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 export const viewport: Viewport = {

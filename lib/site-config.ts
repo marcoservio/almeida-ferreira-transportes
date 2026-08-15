@@ -19,12 +19,29 @@ export const siteConfig = {
   description:
     "Almeida Ferreira Transportes — transporte rodoviário de cargas secas e refrigeradas com frota própria, monitoramento 24h e cobertura nacional.",
 
+  /**
+   * Domínio de produção — base de canonical, sitemap, robots e JSON-LD.
+   *
+   * Com "www": é para lá que a versão sem www redireciona, e é a propriedade
+   * cadastrada no Google Search Console. Os dois precisam bater, senão o Google
+   * trata como dois sites diferentes e divide a relevância entre eles.
+   *
+   * Pode ser sobrescrito pela env NEXT_PUBLIC_SITE_URL (ver lib/seo.ts).
+   */
+  url: "https://www.almeidaferreiratransportes.com",
+
   // ── Contato ────────────────────────────────────────────────────────────────
   contact: {
     phone: "(31) 98396-8417",
     phoneRaw: "5531983968417", // usado nos links de WhatsApp e tel:
     email: "almeidaferreiratransportes@gmail.com",
     hours: "Segunda a sexta, 8h às 18h",
+    /** Mesmo horário acima, em formato legível por buscador. */
+    openingHours: {
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "18:00",
+    },
     address: {
       street: "Rua Emereciana Pedro da Silva, 210 — Sala 26",
       district: "Jardim Teresópolis",
@@ -32,6 +49,56 @@ export const siteConfig = {
       state: "MG",
       cep: "32681-350",
     },
+  },
+
+  // ── SEO ────────────────────────────────────────────────────────────────────
+  // O que aparece na aba do navegador e no resultado do Google.
+  // Regra prática: título até ~60 caracteres, descrição até ~155.
+  seo: {
+    /** Título da home. A cidade vem primeiro — é o que mais puxa busca local. */
+    title:
+      "Transportadora em Betim/MG — Carga seca e refrigerada | Almeida Ferreira",
+    /** Descrição que o Google exibe abaixo do título. */
+    description:
+      "Transportadora em Betim/MG com frota própria de carga seca e refrigerada, rastreamento 24h e cobertura nacional. Peça sua cotação de frete no mesmo dia.",
+    /** Termos que a empresa quer disputar (reforço; o Google usa pouco). */
+    keywords: [
+      "transportadora em Betim",
+      "transportadora em Minas Gerais",
+      "transporte rodoviário de cargas",
+      "carga refrigerada",
+      "carga seca",
+      "transporte frigorífico",
+      "frete Betim MG",
+      "cotação de frete",
+      "carreta dedicada",
+      "carga fracionada",
+      "frota dedicada",
+      "rastreamento de carga",
+      "Almeida Ferreira Transportes",
+    ],
+    /** Estados atendidos — vira `areaServed` nos dados estruturados. */
+    areaServed: [
+      "Minas Gerais",
+      "São Paulo",
+      "Rio de Janeiro",
+      "Espírito Santo",
+      "Goiás",
+      "Distrito Federal",
+      "Mato Grosso",
+      "Mato Grosso do Sul",
+      "Bahia",
+      "Pernambuco",
+      "Ceará",
+      "Paraná",
+      "Santa Catarina",
+      "Rio Grande do Sul",
+    ],
+    /**
+     * Perfis oficiais da empresa (Google Business, Instagram, LinkedIn...).
+     * REVISAR: preencher — o Google usa isso para ligar o site à empresa real.
+     */
+    sameAs: [] as string[],
   },
 
   // ── Navegação (âncoras da home) ────────────────────────────────────────────
