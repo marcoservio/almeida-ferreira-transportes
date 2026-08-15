@@ -1,109 +1,98 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# Almeida Ferreira Transportes
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+Site institucional da transportadora (Betim/MG) com uma área interna onde o
+motorista consulta a viagem atribuída a ele.
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+Next.js 16 (App Router) · React 19 · Tailwind CSS · Supabase
 
-## Features
+---
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Proxy
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+## Rodando localmente
 
-## Demo
+```bash
+npm install
+npm run dev
+```
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+O site sobe em <http://localhost:3000>.
 
-## Deploy to Vercel
+Outros comandos:
 
-Vercel deployment will guide you through creating a Supabase account and project.
+| Comando         | O que faz                                  |
+| --------------- | ------------------------------------------ |
+| `npm run dev`   | servidor de desenvolvimento                |
+| `npm run build` | build de produção (é o que a Vercel roda)  |
+| `npm run start` | sobe o build de produção                   |
+| `npm run lint`  | ESLint                                     |
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+## Variáveis de ambiente
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+Crie um `.env.local` na raiz:
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+```bash
+# Obrigatórias — área do motorista não funciona sem elas
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+# Opcionais
+NEXT_PUBLIC_SITE_URL=                      # sobrescreve o domínio de produção
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=      # código do Google Search Console
+```
 
-## Clone and run locally
+As mesmas variáveis precisam estar cadastradas na Vercel
+(**Settings → Environment Variables**). O `.env.local` fica só na sua máquina.
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+## Editando o conteúdo do site
 
-2. Create a Next.js app using the Supabase Starter template npx command
+**Quase tudo está em [`lib/site-config.ts`](lib/site-config.ts).** Textos,
+telefone, e-mail, endereço, serviços, frota, regiões atendidas, números da
+página e os dados de SEO ficam nesse arquivo — não é preciso abrir nenhum
+componente para trocar um texto ou um telefone.
 
-   ```bash
-   npx create-next-app --example with-supabase with-supabase-app
-   ```
+Os itens marcados com `REVISAR` são estimativas que ainda precisam ser
+confirmadas com a empresa antes de virarem promessa pública.
 
-   ```bash
-   yarn create next-app --example with-supabase with-supabase-app
-   ```
+A home é uma página única: [`app/page.tsx`](app/page.tsx) apenas empilha as
+seções que estão em `components/site/`.
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+## SEO
 
-3. Use `cd` to change into the app's directory
+Título, descrição e palavras-chave saem do bloco `seo` do `site-config.ts`.
+A partir dele são gerados:
 
-   ```bash
-   cd with-supabase-app
-   ```
+- `/robots.txt` — [`app/robots.ts`](app/robots.ts)
+- `/sitemap.xml` — [`app/sitemap.ts`](app/sitemap.ts)
+- dados estruturados JSON-LD — [`lib/seo.ts`](lib/seo.ts)
 
-4. Rename `.env.example` to `.env.local` and update the following:
+**Se o domínio mudar**, troque `url` no `site-config.ts` (ou defina
+`NEXT_PUBLIC_SITE_URL`). Canonical, sitemap, robots e JSON-LD acompanham.
 
-  ```env
-  NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=[INSERT SUPABASE PROJECT API PUBLISHABLE OR ANON KEY]
-  ```
-  > [!NOTE]
-  > This example uses `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, which refers to Supabase's new **publishable** key format.
-  > Both legacy **anon** keys and new **publishable** keys can be used with this variable name during the transition period. Supabase's dashboard may show `NEXT_PUBLIC_SUPABASE_ANON_KEY`; its value can be used in this example.
-  > See the [full announcement](https://github.com/orgs/supabase/discussions/29260) for more information.
+O arquivo `public/google*.html` é a verificação de propriedade do Google
+Search Console e não deve ser removido.
 
-  Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
+⚠️ Arquivos servidos na raiz (`robots.txt`, `sitemap.xml`, `.html` da pasta
+`public/`) precisam estar na lista de exceções do matcher em
+[`proxy.ts`](proxy.ts). Sem isso o proxy do Supabase redireciona tudo para o
+login — inclusive o Googlebot.
 
-5. You can now run the Next.js local development server:
+## Área do motorista
 
-   ```bash
-   npm run dev
-   ```
+Rotas `/auth/*` (login e recuperação de senha) e `/protected` (viagem atual e
+histórico). O acesso é controlado pelo Supabase Auth; o [`proxy.ts`](proxy.ts)
+redireciona quem não está autenticado.
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+Os dados vêm de duas tabelas do Supabase: `motoristas` e `viagens`
+(relacionadas pelo `id` do usuário).
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+**Não existe cadastro público.** Motorista novo é criado pelo painel do
+Supabase em **Authentication → Users → Invite user**; ele define a própria
+senha pelo link recebido, e depois basta criar a linha correspondente em
+`motoristas`.
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+As páginas internas saem do Google por `noindex` — ver os `metadata` em
+[`app/auth/layout.tsx`](app/auth/layout.tsx) e
+[`app/protected/layout.tsx`](app/protected/layout.tsx).
 
-## Feedback and issues
+## Deploy
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
-
-## More Supabase examples
-
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+Hospedado na Vercel, com deploy automático a cada push no `master`.

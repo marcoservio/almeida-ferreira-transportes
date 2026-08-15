@@ -240,7 +240,7 @@ export const siteConfig = {
       { name: "Sudeste", states: "MG · SP · RJ · ES", highlight: true },
       { name: "Centro-Oeste", states: "GO · DF · MT · MS", highlight: true },
       { name: "Nordeste", states: "BA · PE · CE · demais estados", highlight: true },
-      { name: "Sul", states: "PR · SC · RS" },
+      { name: "Sul", states: "PR · SC · RS", highlight: true },
       { name: "Norte", states: "Sob consulta" },
     ],
   },
