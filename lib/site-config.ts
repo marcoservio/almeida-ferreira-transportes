@@ -140,7 +140,7 @@ export const siteConfig = {
       icon: "UserCheck",
       title: "Motoristas de confiança",
       description:
-        "Equipe fixa, treinada e com histórico verificado — a mesma cara chegando no seu cliente.",
+        "Equipe fixa, treinada e com histórico verificado.",
     },
     {
       icon: "Clock",

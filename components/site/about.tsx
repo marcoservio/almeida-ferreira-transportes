@@ -11,7 +11,7 @@ const mvv = [
   {
     icon: Compass,
     title: "Visão",
-    text: "Ser a transportadora que o embarcador chama primeiro quando o frete não pode dar errado.",
+    text: "Ser referência em confiabilidade no transporte rodoviário, crescendo em frota e cobertura sem perder o atendimento próximo.",
   },
   {
     icon: Handshake,
