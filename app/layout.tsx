@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Barlow_Condensed } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import { siteConfig } from "@/lib/site-config";
 import { siteUrl } from "@/lib/seo";
 import "./globals.css";
@@ -79,16 +78,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR">
       <body className={`${sans.variable} ${display.variable} font-sans`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );

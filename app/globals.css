@@ -3,56 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  /**
+   * O site inteiro usa as paletas brand / ink / signal do tailwind.config.ts.
+   * Aqui ficam só os três tokens de base aplicados no <body> e nas bordas,
+   * mais o raio padrão usado pelas classes rounded-*.
+   */
   :root {
     --background: 0 0% 100%;
     --foreground: 213 51% 12%;
-    --card: 0 0% 100%;
-    --card-foreground: 213 51% 12%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 213 51% 12%;
-    /* Azul corporativo (brand-700) */
-    --primary: 213 72% 28%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 213 51% 15%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 20% 45%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 213 51% 15%;
-    /* Vermelho da logo (#E21B23) */
-    --destructive: 358 78% 50%;
-    --destructive-foreground: 0 0% 100%;
     --border: 214 32% 91%;
-    --input: 214 32% 89%;
-    --ring: 212 64% 45%;
-    --chart-1: 212 64% 45%;
-    --chart-2: 358 78% 50%;
-    --chart-3: 213 72% 28%;
-    --chart-4: 199 89% 48%;
-    --chart-5: 215 20% 55%;
     --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 213 51% 8%;
-    --foreground: 210 40% 98%;
-    --card: 213 45% 11%;
-    --card-foreground: 210 40% 98%;
-    --popover: 213 45% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 212 64% 55%;
-    --primary-foreground: 213 51% 10%;
-    --secondary: 213 35% 18%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 213 35% 18%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 213 35% 20%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 358 70% 45%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 213 30% 22%;
-    --input: 213 30% 24%;
-    --ring: 212 64% 55%;
   }
 }
 
