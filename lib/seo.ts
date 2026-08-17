@@ -94,7 +94,10 @@ export function homeJsonLd() {
             availableLanguage: "Portuguese",
           },
         ],
-        ...(seo.sameAs.length > 0 ? { sameAs: seo.sameAs } : {}),
+        // Liga o site aos perfis oficiais da empresa.
+        ...(siteConfig.social.length > 0
+          ? { sameAs: siteConfig.social.map((perfil) => perfil.url) }
+          : {}),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Serviços de transporte rodoviário de cargas",

@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone, Truck } from "lucide-react";
+import { Instagram, Mail, MapPin, Phone, Truck } from "lucide-react";
 import { Logo } from "@/components/site/logo";
 import { siteConfig } from "@/lib/site-config";
+
+/** Um ícone por rede cadastrada em siteConfig.social. */
+const socialIcons = { Instagram } as const;
 
 export function SiteFooter() {
   return (
@@ -17,6 +20,26 @@ export function SiteFooter() {
             <p className="mt-6 max-w-sm leading-relaxed">
               {siteConfig.description}
             </p>
+
+            <ul className="mt-7 flex gap-3">
+              {siteConfig.social.map((perfil) => {
+                const Icon = socialIcons[perfil.name];
+
+                return (
+                  <li key={perfil.url}>
+                    <a
+                      href={perfil.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${perfil.name} da ${siteConfig.name}`}
+                      className="flex size-11 items-center justify-center rounded-xl text-signal-500 transition-colors hover:bg-signal-500 hover:text-white"
+                    >
+                      <Icon className="size-6" />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           <nav>

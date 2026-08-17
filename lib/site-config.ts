@@ -51,6 +51,17 @@ export const siteConfig = {
     },
   },
 
+  // ── Redes sociais ──────────────────────────────────────────────────────────
+  // Perfis oficiais da empresa. Também alimentam o `sameAs` dos dados
+  // estruturados (lib/seo.ts), que é o que liga o site à empresa real aos
+  // olhos do Google. Para adicionar outra rede, basta acrescentar aqui.
+  social: [
+    {
+      name: "Instagram",
+      url: "https://www.instagram.com/tr_almeida_ferreira_/",
+    },
+  ],
+
   // ── SEO ────────────────────────────────────────────────────────────────────
   // O que aparece na aba do navegador e no resultado do Google.
   // Regra prática: título até ~60 caracteres, descrição até ~155.
@@ -94,11 +105,6 @@ export const siteConfig = {
       "Santa Catarina",
       "Rio Grande do Sul",
     ],
-    /**
-     * Perfis oficiais da empresa (Google Business, Instagram, LinkedIn...).
-     * REVISAR: preencher — o Google usa isso para ligar o site à empresa real.
-     */
-    sameAs: [] as string[],
   },
 
   // ── Navegação (âncoras da home) ────────────────────────────────────────────
