@@ -47,7 +47,7 @@ export function LoginForm({
       // `refresh` sincroniza os componentes de servidor com a sessão nova antes
       // de navegar; `replace` deixa o login fora do histórico.
       router.refresh();
-      router.replace("/protected");
+      router.replace("/admin/dashboard");
     } catch (error: unknown) {
       setError(traduzirErroAuth(error));
     } finally {
@@ -59,20 +59,20 @@ export function LoginForm({
   return (
     <div className={cn(className)} {...props}>
       <AuthCard
-        title="Entrar"
-        description="Use o e-mail e a senha cadastrados pela empresa para ver a sua viagem."
+        title="Painel ADM — Entrar"
+        description="Use seu e-mail e senha de administrador para acessar o gerenciamento da transportadora."
       >
         <form onSubmit={handleLogin} className="space-y-5">
           <div>
             <label className={authLabel} htmlFor="email">
-              E-mail
+              E-mail ADM
             </label>
             <input
               id="email"
               type="email"
               inputMode="email"
               autoComplete="email"
-              placeholder="seuemail@exemplo.com"
+              placeholder="admin@almeidaferreira.com"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -123,21 +123,21 @@ export function LoginForm({
 
           <button type="submit" disabled={isLoading} className={authButton}>
             <LogIn className="size-4" />
-            {isLoading ? "Entrando…" : "Entrar"}
+            {isLoading ? "Entrando…" : "Acessar Painel ADM"}
           </button>
         </form>
 
         <p className="mt-6 border-t border-ink-100 pt-6 text-center text-sm text-ink-500">
-          Primeiro acesso ou ainda sem cadastro?{" "}
+          Primeiro acesso ou sem permissão?{" "}
           <a
             href={whatsappLink(
-              "Olá! Sou motorista e gostaria de solicitar meu acesso à área do motorista.",
+              "Olá! Gostaria de solicitar meu acesso administrativo ao Painel ADM.",
             )}
             target="_blank"
             rel="noopener noreferrer"
             className="font-semibold text-brand-700 hover:underline"
           >
-            Solicite à empresa
+            Fale com a diretoria
           </a>
         </p>
       </AuthCard>

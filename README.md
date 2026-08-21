@@ -1,20 +1,31 @@
-# Almeida Ferreira Transportes
+# Almeida Ferreira Transportes — Plataforma de Gestão de Frota & Site Institucional
 
-Site institucional da transportadora (Betim/MG) com uma área interna onde o
-motorista consulta a viagem atribuída a ele.
+Site institucional de alta conversão para a transportadora (Betim/MG) e **Painel Administrativo Completo** para gerenciamento operacional e financeiro de frota, viagens, abastecimentos, manutenções, multas, acertos com motoristas e checklist de liberação.
 
-Next.js 16 (App Router) · React 19 · Tailwind CSS · Supabase
+Next.js 16 (App Router) · React 19 · Tailwind CSS · Supabase PostgreSQL
 
 ---
 
-## Rodando localmente
+## 🚀 Estrutura do Sistema
+
+O sistema é dividido em duas grandes áreas mantidas de forma isolada e segura:
+
+1. **Site Institucional Público (`/`)**:
+   - Home estática com SEO avançado, dados estruturados JSON-LD, mapa de cobertura (Sudeste, Centro-Oeste, Nordeste e Sul), frota (carga seca e frigorificada), formulário de cotação de frete e link oficial do Instagram (`@almeidaferreiratransportes`).
+2. **Painel Administrativo Restrito (`/admin`)**:
+   - Plataforma exclusiva para a equipe do ADM da transportadora.
+   - Substitui a antiga "Área do Motorista" por uma suíte completa de gestão.
+
+---
+
+## 🛠️ Rodando Localmente
 
 ```bash
 npm install
 npm run dev
 ```
 
-O site sobe em <http://localhost:3000>.
+O site e o painel sobem em <http://localhost:3000>.
 
 Outros comandos:
 
@@ -25,74 +36,44 @@ Outros comandos:
 | `npm run start` | sobe o build de produção                   |
 | `npm run lint`  | ESLint                                     |
 
-## Variáveis de ambiente
+---
 
-Crie um `.env.local` na raiz:
+## 🗄️ Estrutura do Banco de Dados (Supabase)
 
-```bash
-# Obrigatórias — área do motorista não funciona sem elas
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+O banco de dados PostgreSQL no Supabase foi totalmente reestruturado e conta com 16 tabelas e tipos ENUM personalizados:
 
-# Opcionais
-NEXT_PUBLIC_SITE_URL=                      # sobrescreve o domínio de produção
-NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=      # código do Google Search Console
-```
+- `usuarios_adm`: Controle de acesso para colaboradores da transportadora com flag para forçar troca de senha no primeiro acesso.
+- `motoristas`: Cadastro operacional com CNH, categoria, validade e chave PIX para pagamentos de acerto.
+- `veiculos`: Cadastro de **Cavalos** e **Carretas** com vencimento de **Checklist Krona**, CRLV, ANTT e hodômetro.
+- `vinculos_conjunto`: Histórico de alocação de conjuntos (Motorista + Cavalo + Carreta).
+- `viagens`: Quadro Kanban com 7 etapas operacionais (`GARAGEM`, `SAIU_GARAGEM`, `EM_TRANSITO`, `CHEGOU_DESTINO`, `CARREGANDO_DESCARREGANDO`, `EM_RETORNO`, `CONCLUIDA`).
+- `viagem_liberacao_checklist`: **Checklist dos 9 Passos de Liberação** (CTE, CIOT, SEFAZ, DACTE/DAMDFE, Rastreio, Rota Krona, SM Krona, Foto SM ao Motorista, E-mail).
+- `documentos_fiscais`: Armazenamento de números, chaves e XMLs de CTEs e MDF-es.
+- `postos_combustivel`: Cadastro da rede de postos credenciados.
+- `abastecimentos`: Lançamento por veículo e posto, distinguindo pagamentos *À vista* (com reembolso ao motorista) e *A prazo* (faturado empresa).
+- `manutencoes`: Registro de manutenções preventivas e corretivas.
+- `multas`: Controle de autos de infração e indicação de condutores.
+- `acertos_viagem`: Módulo de acerto financeiro com motoristas, calculando saldos de reembolso e descontos automaticamente.
+- `configuracoes_alertas` & `alertas_sistema`: Notificações de vencimento de Checklist Krona, CNH, CRLV e alerta semanal para **Fechamento Plena Alimentos**.
 
-As mesmas variáveis precisam estar cadastradas na Vercel
-(**Settings → Environment Variables**). O `.env.local` fica só na sua máquina.
+---
 
-## Editando o conteúdo do site
+## 🔒 Segurança & Proxy
 
-**Quase tudo está em [`lib/site-config.ts`](lib/site-config.ts).** Textos,
-telefone, e-mail, endereço, serviços, frota, regiões atendidas, números da
-página e os dados de SEO ficam nesse arquivo — não é preciso abrir nenhum
-componente para trocar um texto ou um telefone.
+- Todas as tabelas possuem **Row Level Security (RLS)** ativado.
+- O [`proxy.ts`](proxy.ts) gerencia as sessões no Supabase SSR e protege as rotas administrativas.
+- O matcher do proxy inclui exceções para `robots.txt`, `sitemap.xml` e arquivos `.html` em `public/` para impedir o bloqueio de crawlers do Googlebot.
 
-Os itens marcados com `REVISAR` são estimativas que ainda precisam ser
-confirmadas com a empresa antes de virarem promessa pública.
+---
 
-A home é uma página única: [`app/page.tsx`](app/page.tsx) apenas empilha as
-seções que estão em `components/site/`.
+## 📈 SEO & Indexação
 
-## SEO
+- Configurações centralizadas em [`lib/site-config.ts`](lib/site-config.ts).
+- Sitemap automático (`/sitemap.xml`), Robots (`/robots.txt`) e dados estruturados `LocalBusiness` / `AutomotiveBusiness`.
+- As rotas administrativas (`/admin/*`) utilizam a diretiva `noindex, nofollow`.
 
-Título, descrição e palavras-chave saem do bloco `seo` do `site-config.ts`.
-A partir dele são gerados:
+---
 
-- `/robots.txt` — [`app/robots.ts`](app/robots.ts)
-- `/sitemap.xml` — [`app/sitemap.ts`](app/sitemap.ts)
-- dados estruturados JSON-LD — [`lib/seo.ts`](lib/seo.ts)
+## 🚀 Deploy
 
-**Se o domínio mudar**, troque `url` no `site-config.ts` (ou defina
-`NEXT_PUBLIC_SITE_URL`). Canonical, sitemap, robots e JSON-LD acompanham.
-
-O arquivo `public/google*.html` é a verificação de propriedade do Google
-Search Console e não deve ser removido.
-
-⚠️ Arquivos servidos na raiz (`robots.txt`, `sitemap.xml`, `.html` da pasta
-`public/`) precisam estar na lista de exceções do matcher em
-[`proxy.ts`](proxy.ts). Sem isso o proxy do Supabase redireciona tudo para o
-login — inclusive o Googlebot.
-
-## Área do motorista
-
-Rotas `/auth/*` (login e recuperação de senha) e `/protected` (viagem atual e
-histórico). O acesso é controlado pelo Supabase Auth; o [`proxy.ts`](proxy.ts)
-redireciona quem não está autenticado.
-
-Os dados vêm de duas tabelas do Supabase: `motoristas` e `viagens`
-(relacionadas pelo `id` do usuário).
-
-**Não existe cadastro público.** Motorista novo é criado pelo painel do
-Supabase em **Authentication → Users → Invite user**; ele define a própria
-senha pelo link recebido, e depois basta criar a linha correspondente em
-`motoristas`.
-
-As páginas internas saem do Google por `noindex` — ver os `metadata` em
-[`app/auth/layout.tsx`](app/auth/layout.tsx) e
-[`app/protected/layout.tsx`](app/protected/layout.tsx).
-
-## Deploy
-
-Hospedado na Vercel, com deploy automático a cada push no `master`.
+Hospedado na Vercel com deploy automático a cada push no repositório.

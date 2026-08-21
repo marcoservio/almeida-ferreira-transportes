@@ -1,7 +1,5 @@
-export const instant = false;
-
 import { redirect } from "next/navigation";
 
-export default function ProtectedPage() {
+export default function AdminPage() {
   redirect("/admin/dashboard");
 }

@@ -64,7 +64,7 @@ export function SiteFooter() {
                   className="inline-flex items-center gap-2 font-semibold text-white transition-colors hover:text-signal-400"
                 >
                   <Truck className="size-4 text-signal-500" />
-                  Área do motorista
+                  Painel ADM
                 </Link>
               </li>
             </ul>

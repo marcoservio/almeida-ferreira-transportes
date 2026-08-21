@@ -58,7 +58,7 @@ export const siteConfig = {
   social: [
     {
       name: "Instagram",
-      url: "https://www.instagram.com/tr_almeida_ferreira_/",
+      url: "https://www.instagram.com/almeidaferreiratransportes/",
     },
   ],
 

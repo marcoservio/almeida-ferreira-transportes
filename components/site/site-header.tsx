@@ -74,7 +74,7 @@ export function SiteHeader() {
             href="/auth/login"
             className="rounded-lg border border-white/25 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/10"
           >
-            Área do motorista
+            Painel ADM
           </Link>
 
           <a
@@ -123,7 +123,7 @@ export function SiteHeader() {
                 href="/auth/login"
                 className="rounded-lg border border-white/25 px-4 py-3.5 text-center font-semibold text-white"
               >
-                Área do motorista
+                Painel ADM
               </Link>
 
               <a
