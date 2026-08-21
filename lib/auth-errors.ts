@@ -37,6 +37,9 @@ export function traduzirErroAuth(erro: unknown): string {
     if (padrao.test(mensagem)) return texto;
   }
 
-  if (mensagem) console.error("[auth]", mensagem);
+  if (mensagem) {
+    console.error("[auth]", mensagem);
+    return `Erro de Autenticação: ${mensagem}`;
+  }
   return "Não foi possível concluir. Tente novamente em instantes.";
 }

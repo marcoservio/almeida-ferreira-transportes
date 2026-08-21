@@ -1,98 +1,124 @@
-# Almeida Ferreira Transportes
+# 🚛 Almeida Ferreira Transportes — Sistema de Gestão Operacional & Frotas
 
-Site institucional da transportadora (Betim/MG) com uma área interna onde o
-motorista consulta a viagem atribuída a ele.
+Sistema web moderno e completo para gestão de frotas, viagens, manutenção, controle financeiro de acertos de motoristas, abastecimentos e infrações de trânsito para a **Almeida Ferreira Transportes**.
 
-Next.js 16 (App Router) · React 19 · Tailwind CSS · Supabase
+![Next.js](https://img.shields.io/badge/Next.js-16.3.0-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v3.4-38bdf8?logo=tailwindcss)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-emerald?logo=supabase)
 
 ---
 
-## Rodando localmente
+## 📌 Principais Funcionalidades
 
+- **🚚 Cadastro Completo de Veículos (CRLV)**: Registro detalhado com placa, Renavam, Chassi, Marca, Modelo, Ano Fabricação/Modelo, Cor e Categoria.
+- **⛓️ Formação de Conjuntos Operacionais**: Vínculo do trio **Motorista + Cavalo + Carreta** com auto-complete inteligente na criação de viagens e acertos.
+- **🗺️ Gestão de Viagens (Quadro Kanban)**: Acompanhamento em tempo real de 7 etapas da viagem (*Na Garagem, Saiu Garagem, Em Trânsito, Chegou Destino, Carga/Descarga, Em Retorno, Concluída*).
+- **📋 Checklist de Liberação de 9 Passos**: Inspeção rigorosa de liberação de viagem e atendimento ao contrato Krona.
+- **💰 Acerto de Viagem com Motorista**: Calculadora financeira automatizada distinguindo despesas reembolsáveis à vista, custos diretos da empresa a prazo e saldo líquido final a pagar.
+- **⛽ Controle de Abastecimentos**: Lançamento por veículo, motorista, posto parceiro e tipo de pagamento (à vista vs faturado).
+- **🔧 Gestão de Manutenção**: Registro de intervenções preventivas e corretivas com hodômetro.
+- **🚨 Multas de Trânsito & Pontuação CNH**: Controle de infrações e pontuação acumulada por motorista.
+- **🗑️ Exclusão Segura com Confirmação**: Exclusão direta pela interface em todas as tabelas e cadastros.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Framework**: [Next.js 16.3.0](https://nextjs.org/) (App Router & Turbopack)
+- **Linguagem**: [TypeScript](https://www.typescriptlang.org/)
+- **Estilização**: [Tailwind CSS](https://tailwindcss.com/) & Vanilla Utilities
+- **Banco de Dados & Autenticação**: [Supabase PostgreSQL](https://supabase.com/)
+- **Ícones**: [Lucide React](https://lucide.dev/)
+
+---
+
+## 🚀 Como Rodar o Projeto Localmente
+
+### 1. Pré-requisitos
+Certifique-se de ter instalado em sua máquina:
+- **Node.js** (`v18.x` ou superior — recomendado `v20.x`)
+- **npm** (incluso com o Node) ou **yarn** / **pnpm**
+
+---
+
+### 2. Clonar o Repositório
+```bash
+git clone https://github.com/JoaoAlmeida02/almeida-ferreira-transportes.git
+cd almeida-ferreira-transportes
+```
+
+---
+
+### 3. Instalar as Dependências
 ```bash
 npm install
+```
+
+---
+
+### 4. Configurar as Variáveis de Ambiente (`.env.local`)
+Crie um arquivo chamado `.env.local` na raiz do projeto com o seguinte conteúdo:
+
+```env
+# Conexão com o Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://eewkffcheydwtmydzawx.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_pQH-fqR0AYo750PJyPch7w_KrSB56_V
+```
+
+---
+
+### 5. Iniciar o Servidor de Desenvolvimento
+```bash
 npm run dev
 ```
 
-O site sobe em <http://localhost:3000>.
+A aplicação estará disponível em:
+- 🌐 **Site Institucional**: [http://localhost:3000](http://localhost:3000)
+- 🔒 **Painel de Gestão ADM**: [http://localhost:3000/admin](http://localhost:3000/admin)
 
-Outros comandos:
+---
 
-| Comando         | O que faz                                  |
-| --------------- | ------------------------------------------ |
-| `npm run dev`   | servidor de desenvolvimento                |
-| `npm run build` | build de produção (é o que a Vercel roda)  |
-| `npm run start` | sobe o build de produção                   |
-| `npm run lint`  | ESLint                                     |
+## 🔑 Usuário de Teste / Acesso Administrativo
 
-## Variáveis de ambiente
+Para entrar no Painel de Gestão Operacional ADM ([http://localhost:3000/auth/login](http://localhost:3000/auth/login)), utilize o usuário de teste:
 
-Crie um `.env.local` na raiz:
+- **E-mail**: `admin@almeidaferreira.com`
+- **Senha**: `123456`
+
+---
+
+## 🗄️ Estrutura do Banco de Dados (Supabase PostgreSQL)
+
+| Tabela | Descrição |
+| :--- | :--- |
+| `motoristas` | Cadastro de motoristas, CNH, vencimento, telefone e chave PIX. |
+| `veiculos` | Cadastro de veículos com ficha técnica e do documento CRLV. |
+| `vinculos_conjunto` | Vínculos de frotas operacionais (Motorista + Cavalo + Carreta). |
+| `viagens` | Registro das viagens e status das etapas da operação. |
+| `viagem_liberacao_checklist` | Checklist de verificação de segurança dos 9 passos. |
+| `acertos_viagem` | Lançamento e fechamento financeiro de acerto com motoristas. |
+| `abastecimentos` | Histórico de abastecimentos de combustível da frota. |
+| `manutencoes` | Registro de manutenções preventivas e corretivas. |
+| `multas` | Controle de infrações de trânsito. |
+| `postos_combustivel` | Rede de postos parceiros conveniados. |
+
+---
+
+## 📦 Comandos Úteis
 
 ```bash
-# Obrigatórias — área do motorista não funciona sem elas
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+# Iniciar ambiente de desenvolvimento com Turbopack
+npm run dev
 
-# Opcionais
-NEXT_PUBLIC_SITE_URL=                      # sobrescreve o domínio de produção
-NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=      # código do Google Search Console
+# Gerar o build de produção compilado
+npx next build
+
+# Executar a versão de produção compilada
+npm run start
 ```
 
-As mesmas variáveis precisam estar cadastradas na Vercel
-(**Settings → Environment Variables**). O `.env.local` fica só na sua máquina.
+---
 
-## Editando o conteúdo do site
-
-**Quase tudo está em [`lib/site-config.ts`](lib/site-config.ts).** Textos,
-telefone, e-mail, endereço, serviços, frota, regiões atendidas, números da
-página e os dados de SEO ficam nesse arquivo — não é preciso abrir nenhum
-componente para trocar um texto ou um telefone.
-
-Os itens marcados com `REVISAR` são estimativas que ainda precisam ser
-confirmadas com a empresa antes de virarem promessa pública.
-
-A home é uma página única: [`app/page.tsx`](app/page.tsx) apenas empilha as
-seções que estão em `components/site/`.
-
-## SEO
-
-Título, descrição e palavras-chave saem do bloco `seo` do `site-config.ts`.
-A partir dele são gerados:
-
-- `/robots.txt` — [`app/robots.ts`](app/robots.ts)
-- `/sitemap.xml` — [`app/sitemap.ts`](app/sitemap.ts)
-- dados estruturados JSON-LD — [`lib/seo.ts`](lib/seo.ts)
-
-**Se o domínio mudar**, troque `url` no `site-config.ts` (ou defina
-`NEXT_PUBLIC_SITE_URL`). Canonical, sitemap, robots e JSON-LD acompanham.
-
-O arquivo `public/google*.html` é a verificação de propriedade do Google
-Search Console e não deve ser removido.
-
-⚠️ Arquivos servidos na raiz (`robots.txt`, `sitemap.xml`, `.html` da pasta
-`public/`) precisam estar na lista de exceções do matcher em
-[`proxy.ts`](proxy.ts). Sem isso o proxy do Supabase redireciona tudo para o
-login — inclusive o Googlebot.
-
-## Área do motorista
-
-Rotas `/auth/*` (login e recuperação de senha) e `/protected` (viagem atual e
-histórico). O acesso é controlado pelo Supabase Auth; o [`proxy.ts`](proxy.ts)
-redireciona quem não está autenticado.
-
-Os dados vêm de duas tabelas do Supabase: `motoristas` e `viagens`
-(relacionadas pelo `id` do usuário).
-
-**Não existe cadastro público.** Motorista novo é criado pelo painel do
-Supabase em **Authentication → Users → Invite user**; ele define a própria
-senha pelo link recebido, e depois basta criar a linha correspondente em
-`motoristas`.
-
-As páginas internas saem do Google por `noindex` — ver os `metadata` em
-[`app/auth/layout.tsx`](app/auth/layout.tsx) e
-[`app/protected/layout.tsx`](app/protected/layout.tsx).
-
-## Deploy
-
-Hospedado na Vercel, com deploy automático a cada push no `master`.
+## 📄 Licença
+Propriedade privada de **Almeida Ferreira Transportes**. Todos os direitos reservados.
